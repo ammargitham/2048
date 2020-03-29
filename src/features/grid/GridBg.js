@@ -13,6 +13,10 @@ const TilesContainer = styled.div`
   flex-wrap: wrap;
   background: #ff9800;
   z-index: -1;
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 export default function GridBg({ reference }) {

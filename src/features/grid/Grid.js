@@ -29,6 +29,10 @@ const TilesContainer = styled.div`
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 // const animateElementIn = (el, i) =>
@@ -88,7 +92,9 @@ export default function Grid() {
     setTileGridSize();
   });
 
-  useResizeListener(() => {});
+  useResizeListener(() => {
+    setTileGridSize();
+  });
 
   function onAnimationStart(id, row, col, value) {
     setPrevLocations(prevLocations.set(id, { row, col, value }));
