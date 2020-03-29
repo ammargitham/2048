@@ -26,7 +26,7 @@ const TilesContainer = styled(Swipeable)`
   border-radius: 10px;
   position: absolute;
   padding: ${() => `${GRID_GAP / 2}px`};
-  z-index: 1;
+  z-index: 2;
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
@@ -163,7 +163,7 @@ export default function Grid() {
                           bottomCell.value
                         )
                       }
-                      style={{ zIndex: 1 }}
+                      style={{ zIndex: 2 }}
                     />
                   ),
                   <MovableCell

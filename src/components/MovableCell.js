@@ -5,7 +5,7 @@ import { ANIMATION_DURATION } from '../features/grid/constants';
 import Cell from './Cell';
 
 const StyledCell = styled(Cell)`
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   width: ${props => `${props.width || 0}px`};
 `;

@@ -18,7 +18,35 @@ const CellContainer = styled.div`
   & .content {
     flex-grow: 1;
     border-radius: 10px;
-    background: ${props => (!props.value ? '#ffc5a3' : 'cadetblue')};
+    background: ${props => {
+      if (!props.value) {
+        return '#c6bab1';
+      }
+      switch (props.value) {
+        case 2:
+          return '#e8ddd4';
+        case 4:
+          return '#e3d8bf';
+        case 8:
+          return '#ecab76';
+        case 16:
+          return '#e88852';
+        case 32:
+          return '#f47b60';
+        case 64:
+          return '#de5639';
+        case 128:
+          return '#e8d264';
+        case 256:
+          return '#ebcb4d';
+        case 1024:
+          return '#dcb512';
+        case 2048:
+        default:
+          return '#e7c000';
+      }
+      return '#ffc5a3';
+    }};
     color: white;
     font-size: 2.5em;
     font-weight: bold;
