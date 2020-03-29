@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Swipeable } from 'react-swipeable';
 import styled from 'styled-components';
 import MovableCell from '../../components/MovableCell';
 import useKeyListener from '../../hooks/useKeyListener';
@@ -20,7 +21,7 @@ import { down, init, left, right, selectGrid, up } from './gridSlice';
 //   z-index: -1;
 // `;
 
-const TilesContainer = styled.div`
+const TilesContainer = styled(Swipeable)`
   width: 50%;
   border-radius: 10px;
   position: absolute;
@@ -35,24 +36,6 @@ const TilesContainer = styled.div`
   }
 `;
 
-// const animateElementIn = (el, i) =>
-//   anime({
-//     targets: el,
-//     opacity: 1,
-//     duration: 200,
-//     easing: 'linear'
-//   });
-
-// const exitThenFlipThenEnter = ({
-//   hideEnteringElements,
-//   animateEnteringElements,
-//   animateExitingElements,
-//   animateFlippedElements
-// }) => {
-//   hideEnteringElements();
-//   animateFlippedElements().then(animateEnteringElements);
-// };
-
 export default function Grid() {
   const [tileCellWidth, setTileCellWidth] = useState(0);
   const [prevLocations, setPrevLocations] = useState(new Map());
@@ -64,25 +47,39 @@ export default function Grid() {
   const gridBgRef = useRef(null);
   const tileRef = useRef(null);
 
+  // const handlers = useSwipeable({
+  //   onSwiped: eventData => {
+  //     console.log(eventData);
+  //   }
+  // });
+
   useKeyListener(code => {
     // console.log(code);
-    switch (code) {
+    dispatchDir(code);
+  });
+
+  function dispatchDir(dirOrCode) {
+    switch (dirOrCode) {
       case 'ArrowUp':
+      case 'Up':
         dispatch(up());
         break;
       case 'ArrowDown':
+      case 'Down':
         dispatch(down());
         break;
       case 'ArrowLeft':
+      case 'Left':
         dispatch(left());
         break;
       case 'ArrowRight':
+      case 'Right':
         dispatch(right());
         break;
       default:
         break;
     }
-  });
+  }
 
   useEffect(() => {
     dispatch(init());
@@ -126,7 +123,12 @@ export default function Grid() {
       }}
     >
       <GridBg reference={gridBgRef} />
-      <TilesContainer ref={tileRef} colCount={COL_COUNT}>
+      <TilesContainer
+        innerRef={ref => (tileRef.current = ref)}
+        colCount={COL_COUNT}
+        trackMouse={true}
+        onSwiped={({ dir }) => dispatchDir(dir)}
+      >
         {Array(COL_COUNT)
           .fill(null)
           .map((_c, row) => {

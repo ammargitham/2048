@@ -6,9 +6,9 @@ dependencies:
   animejs: 3.1.0
   react: 16.13.1
   react-dom: 16.13.1_react@16.13.1
-  react-flip-toolkit: 7.0.9_react-dom@16.13.1+react@16.13.1
   react-redux: 7.2.0_react-dom@16.13.1+react@16.13.1
   react-scripts: 3.4.0
+  react-swipeable: 5.5.1_react@16.13.1
   styled-components: 5.0.1_8f7d443d2407229b91fbc1ce8596fcc4
 lockfileVersion: 5.1
 packages:
@@ -9129,21 +9129,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Yzpno3enVzSrSCnnljmr4b/2KUQSMZaPuqmS26t9k4nW7uwJk6STWmH9heNjPuvqUTO3jOSPkHoKgO4+Dw7uIw==
-  /react-flip-toolkit/7.0.9_react-dom@16.13.1+react@16.13.1:
-    dependencies:
-      react: 16.13.1
-      react-dom: 16.13.1_react@16.13.1
-      rematrix: 0.2.2
-    dev: false
-    engines:
-      node: '>=8'
-      npm: '>=5'
-    peerDependencies:
-      prop-types: ^15.x.x
-      react: 16.x
-      react-dom: '>= 16.x'
-    resolution:
-      integrity: sha512-YQd/N9Bt0Kia3eOpO8R7XqHt0bNC8POzidkzM1ATnogKK4h08IwsBk8YmRaybpKbSHKIwgR/UVT0wTwoyNZUVw==
   /react-is/16.13.1:
     dev: false
     resolution:
@@ -9237,6 +9222,15 @@ packages:
         optional: true
     resolution:
       integrity: sha512-pBqaAroFoHnFAkuX+uSK9Th1uEh2GYdGY2IG1I9/7HmuEf+ls3lLCk1p2GFYRSrLMz6ieQR/SyN6TLIGK3hKRg==
+  /react-swipeable/5.5.1_react@16.13.1:
+    dependencies:
+      prop-types: 15.7.2
+      react: 16.13.1
+    dev: false
+    peerDependencies:
+      react: ^16.0.0-0
+    resolution:
+      integrity: sha512-EQObuU3Qg3JdX3WxOn5reZvOSCpU4fwpUAs+NlXSN3y+qtsO2r8VGkVnOQzmByt3BSYj9EWYdUOUfi7vaMdZZw==
   /react/16.13.1:
     dependencies:
       loose-envify: 1.4.0
@@ -9467,10 +9461,6 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
-  /rematrix/0.2.2:
-    dev: false
-    resolution:
-      integrity: sha512-agFFS3RzrLXJl5LY5xg/xYyXvUuVAnkhgKO7RaO9J1Ssth6yvbO+PIiV67V59MB5NCdAK2flvGvNT4mdKVniFA==
   /remove-trailing-separator/1.1.0:
     dev: false
     resolution:
@@ -11556,7 +11546,7 @@ specifiers:
   animejs: ^3.1.0
   react: ^16.13.1
   react-dom: ^16.13.1
-  react-flip-toolkit: ^7.0.9
   react-redux: ^7.2.0
   react-scripts: 3.4.0
+  react-swipeable: ^5.5.1
   styled-components: ^5.0.1
