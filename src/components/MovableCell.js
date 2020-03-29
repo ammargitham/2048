@@ -12,6 +12,7 @@ const StyledCell = styled(Cell)`
 
 export default function MovableCell({
   width,
+  height,
   from: { row: prevRow, col: prevCol, value: prevValue } = {},
   to: { row, col },
   onStart,
@@ -20,9 +21,9 @@ export default function MovableCell({
   const cellRef = useRef(null);
   useLayoutEffect(() => {
     let translateFromX = prevCol * width;
-    let translateFromY = prevRow * width;
+    let translateFromY = prevRow * height;
     const translateToX = col * width;
-    const translateToY = row * width;
+    const translateToY = row * height;
     const animeObj = {
       targets: cellRef.current,
       begin: onStart
@@ -67,7 +68,17 @@ export default function MovableCell({
       }
     }
     anime(animeObj);
-  }, [onStart, prevRow, prevCol, row, col, width, prevValue, rest.value]);
+  }, [
+    onStart,
+    prevRow,
+    prevCol,
+    row,
+    col,
+    width,
+    height,
+    prevValue,
+    rest.value
+  ]);
 
   return (
     <StyledCell

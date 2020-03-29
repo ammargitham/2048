@@ -38,6 +38,7 @@ const TilesContainer = styled(Swipeable)`
 
 export default function Grid() {
   const [tileCellWidth, setTileCellWidth] = useState(0);
+  const [tileCellHeight, setTileCellHeight] = useState(0);
   const [prevLocations, setPrevLocations] = useState(new Map());
 
   const dispatch = useDispatch();
@@ -109,6 +110,7 @@ export default function Grid() {
     } = bgEle.getBoundingClientRect();
     tileEle.style.height = gridHeigth + 'px';
     setTileCellWidth((gridWidth - GRID_GAP) / COL_COUNT);
+    setTileCellHeight((gridHeigth - GRID_GAP) / COL_COUNT);
   }
 
   return (
@@ -152,6 +154,7 @@ export default function Grid() {
                       to={{ row, col }}
                       value={bottomCell.value}
                       width={tileCellWidth}
+                      height={tileCellHeight}
                       onStart={() =>
                         onAnimationStart(
                           bottomCell.id,
@@ -169,6 +172,7 @@ export default function Grid() {
                     to={{ row, col }}
                     value={cell.value}
                     width={tileCellWidth}
+                    height={tileCellHeight}
                     onStart={() =>
                       onAnimationStart(cell.id, row, col, cell.value)
                     }
