@@ -45,9 +45,19 @@ const CellContainer = styled.div`
         default:
           return '#e7c000';
       }
-      return '#ffc5a3';
     }};
-    color: white;
+    color: ${props => {
+      if (!props.value) {
+        return '#c6bab1';
+      }
+      switch (props.value) {
+        case 2:
+        case 4:
+          return '#796e62';
+        default:
+          return 'white';
+      }
+    }};
     font-size: 2.5em;
     font-weight: bold;
     display: flex;

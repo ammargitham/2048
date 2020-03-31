@@ -88,7 +88,6 @@ export function moveCells(grid, direction) {
   const gridLength = newGrid.length;
   let row = -1;
   let col = -1;
-  // const mergedCells = [];
   while (true) {
     const tempRow = row;
     row = getNextRow(tempRow, col, gridLength, direction);
@@ -117,10 +116,7 @@ export function moveCells(grid, direction) {
       const newCell = newGrid[newRow][newCol];
       if (newCell) {
         if (!Array.isArray(newCell) && newCell.value === cell.value) {
-          // mergedCells.push([newRow, newCol]);
           newGrid[newRow][newCol] = [cell, newCell];
-          // newGrid[newRow][newCol].id = cell.id;
-          // newGrid[newRow][newCol].value = cell.value * 2;
           break;
         }
         newGrid[prevRow][prevCol] = cell;
@@ -148,7 +144,7 @@ export function mergeCells(grid) {
   return newGrid;
 }
 
-function getEmptyCells(grid) {
+export function getEmptyCells(grid) {
   const cells = [];
   grid.forEach((rows, rowNum) => {
     rows.forEach((cell, colNum) => {
@@ -163,21 +159,21 @@ function getEmptyCells(grid) {
 export function getRandomRowCol(grid) {
   const emptyCells = getEmptyCells(grid);
   if (!emptyCells.length) {
-    console.log('Game over');
+    // console.log('Game over');
     return null;
   }
   const nextCellIndex = emptyCells[getRandomInt(emptyCells.length)];
   const row = Number.parseInt(nextCellIndex / grid.length, 10);
   const col = nextCellIndex % grid.length;
-  console.log(
-    'emptyCells',
-    emptyCells,
-    'nextCellIndex:',
-    nextCellIndex,
-    'row:',
-    row,
-    'col:',
-    col
-  );
+  // console.log(
+  //   'emptyCells',
+  //   emptyCells,
+  //   'nextCellIndex:',
+  //   nextCellIndex,
+  //   'row:',
+  //   row,
+  //   'col:',
+  //   col
+  // );
   return [row, col];
 }

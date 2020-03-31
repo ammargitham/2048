@@ -48,10 +48,18 @@ export default function MovableCell({
       rest.value !== prevValue
     ) {
       if (!prevValue) {
-        animeObj.scale = {
-          value: [0, 1],
-          duration: 300
-        };
+        animeObj.scale = [
+          {
+            value: 1.2,
+            duration: 150,
+            easing: 'easeInCubic'
+          },
+          {
+            value: 1,
+            duration: 150,
+            easing: 'easeOutCubic'
+          }
+        ];
       } else {
         animeObj.scale = [
           {

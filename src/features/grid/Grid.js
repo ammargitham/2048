@@ -6,20 +6,17 @@ import MovableCell from '../../components/MovableCell';
 import useKeyListener from '../../hooks/useKeyListener';
 import useResizeListener from '../../hooks/useResizeListener';
 import { COL_COUNT, GRID_GAP } from './constants';
+import GameOver from './GameOver';
 import GridBg from './GridBg';
-import { down, init, left, right, selectGrid, up } from './gridSlice';
-
-// const GridBackground = styled.div`
-//   background: #ff9800;
-//   width: 50%;
-//   display: none;
-//   grid-template-columns: ${props => `repeat(${props.colCount}, 1fr)`};
-//   grid-gap: ${() => `${GRID_GAP}px`};
-//   padding: ${() => `${GRID_GAP}px`};
-//   border-radius: 10px;
-//   position: absolute;
-//   z-index: -1;
-// `;
+import {
+  down,
+  init,
+  left,
+  right,
+  selectGameOver,
+  selectGrid,
+  up
+} from './gridSlice';
 
 const TilesContainer = styled(Swipeable)`
   width: 50%;
@@ -36,6 +33,10 @@ const TilesContainer = styled(Swipeable)`
   }
 `;
 
+const StyledGameOver = styled(GameOver)`
+  z-index: 3;
+`;
+
 export default function Grid() {
   const [tileCellWidth, setTileCellWidth] = useState(0);
   const [tileCellHeight, setTileCellHeight] = useState(0);
@@ -44,18 +45,13 @@ export default function Grid() {
   const dispatch = useDispatch();
 
   const grid = useSelector(selectGrid);
+  const gameOver = useSelector(selectGameOver);
 
   const gridBgRef = useRef(null);
   const tileRef = useRef(null);
-
-  // const handlers = useSwipeable({
-  //   onSwiped: eventData => {
-  //     console.log(eventData);
-  //   }
-  // });
+  const gameOverRef = useRef(null);
 
   useKeyListener(code => {
-    // console.log(code);
     dispatchDir(code);
   });
 
@@ -111,6 +107,10 @@ export default function Grid() {
     tileEle.style.height = gridHeigth + 'px';
     setTileCellWidth((gridWidth - GRID_GAP) / COL_COUNT);
     setTileCellHeight((gridHeigth - GRID_GAP) / COL_COUNT);
+    if (gameOverRef.current) {
+      gameOverRef.current.style.height = gridHeigth + 'px';
+      gameOverRef.current.style.width = gridWidth + 'px';
+    }
   }
 
   return (
@@ -181,6 +181,7 @@ export default function Grid() {
               });
           })}
       </TilesContainer>
+      {gameOver && <StyledGameOver innerRef={gameOverRef} />}
     </div>
   );
 }

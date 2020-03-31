@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ANIMATION_DURATION, COL_COUNT } from './constants';
-import { getRandomRowCol, mergeCells, moveCells } from './services';
+import {
+  getEmptyCells,
+  getRandomRowCol,
+  mergeCells,
+  moveCells
+} from './services';
 
 export const slice = createSlice({
   name: 'grid',
@@ -8,7 +13,8 @@ export const slice = createSlice({
     nextId: 0,
     grid: Array(COL_COUNT)
       .fill(null)
-      .map(() => Array(COL_COUNT).fill(null))
+      .map(() => Array(COL_COUNT).fill(null)),
+    gameOver: false
   },
   reducers: {
     setCell: (state, { payload: { row, col, value } }) => {
@@ -17,24 +23,46 @@ export const slice = createSlice({
         value
       };
       state.nextId++;
+      localStorage.setItem('grid', JSON.stringify(state.grid));
+      localStorage.setItem('nextId', state.nextId);
     },
     setGrid: (state, { payload: grid }) => {
       state.grid = grid;
+      localStorage.setItem('grid', JSON.stringify(state.grid));
+    },
+    setNextId: (state, { payload: id }) => {
+      state.nextId = id;
+    },
+    checkGameOver: state => {
+      const grid = state.grid;
+      const emptyCells = getEmptyCells(grid);
+      if (emptyCells.length) {
+        return;
+      }
+      // if there are no empty cells
+      // check if moving cells in any direction changes the grid
+      let updatedGrid = moveCells(grid, 'up');
+      if (JSON.stringify(grid) !== JSON.stringify(updatedGrid)) {
+        return;
+      }
+      updatedGrid = moveCells(grid, 'down');
+      if (JSON.stringify(grid) !== JSON.stringify(updatedGrid)) {
+        return;
+      }
+      updatedGrid = moveCells(grid, 'left');
+      if (JSON.stringify(grid) !== JSON.stringify(updatedGrid)) {
+        return;
+      }
+      updatedGrid = moveCells(grid, 'right');
+      if (JSON.stringify(grid) !== JSON.stringify(updatedGrid)) {
+        return;
+      }
+      state.gameOver = true;
     }
   }
 });
 
-export const { setCell, setGrid } = slice.actions;
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-// export const incrementAsync = amount => dispatch => {
-//   setTimeout(() => {
-//     dispatch(incrementByAmount(amount));
-//   }, 1000);
-// };
+export const { setCell, setGrid, checkGameOver, setNextId } = slice.actions;
 
 export const up = () => (dispatch, getState) => {
   const {
@@ -68,7 +96,13 @@ export const init = () => (dispatch, getState) => {
   const {
     grid: { grid }
   } = getState();
-  addNewCell(grid, dispatch);
+  const gridString = localStorage.getItem('grid');
+  if (!gridString) {
+    addNewCell(grid, dispatch);
+    return;
+  }
+  dispatch(setNextId(localStorage.getItem('nextId')));
+  dispatch(setGrid(JSON.parse(gridString)));
 };
 
 function doNextStep(grid, direction, dispatch) {
@@ -96,18 +130,22 @@ function addNewCell(grid, dispatch) {
     return;
   }
   const [row, col] = rowCol;
-  dispatch(
-    setCell({
-      row,
-      col,
-      value: 2
-    })
-  );
+  const newCellLoc = {
+    row,
+    col,
+    value: 2
+  };
+  dispatch(setCell(newCellLoc));
+  setTimeout(() => {
+    dispatch(checkGameOver());
+  }, 1000);
 }
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectGrid = state => state.grid.grid;
+
+export const selectGameOver = state => state.grid.gameOver;
 
 export default slice.reducer;
